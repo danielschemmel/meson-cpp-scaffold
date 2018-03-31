@@ -81,13 +81,33 @@ namespace {
 		#endif
 		return out;
 	}
+
+	::std::ostream& print_asan_status(::std::ostream& out) {
+		#if defined(__has_feature)
+			#if __has_feature(address_sanitizer)
+				#define asan_enabled 1
+			#endif
+		#endif
+		#if defined(__SANITIZE_ADDRESS__) && !defined(asan_enabled)
+			#define asan_enabled 1
+		#endif
+		#if defined(asan_enabled)
+			return out << "ASAN is enabled";
+		#else
+			return out << "ASAN may be disabled"; // not absolute, checks may not be exhaustive
+		#endif
+		#undef asan_enabled
+	}
 }
 
 int main() {
 	::std::cout << "Version " << ::version::version() << "\n";
 	::std::cout << "Last Modified " << ::version::last_modified() << "\n";
-	print_cplusplus_version(::std::cout << "C++ Version Macro: ") << "\n";
-	print_arch(print_os(::std::cout << "Built for ") << " (") << ")\n";
+	::std::cout << "\n";
+
+	::std::cout << "Built for " << print_os << " (" << print_arch << ")\n";
+	::std::cout << "C++ Version Macro: " << print_cplusplus_version << "\n";
+	::std::cout << print_asan_status << "\n";
 
 	return 0;
 }
