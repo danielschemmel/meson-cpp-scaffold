@@ -60,7 +60,7 @@ Debian stretch (the "newest" stable branch at the time of writing) only provides
 
 ```
 $ sudo vi /etc/apt/sources.list # replace every occurence of "stretch" with the word "testing"
-$ sudo apt update && sudo apt full-upgrade
+$ sudo apt update && sudo apt dist-upgrade && sudo apt autoremove
 $ sudo apt install build-essential git ccache meson pkg-config libunwind-dev
 $ cd ${PROJECT}
 $ meson --buildtype=debug debug
@@ -82,12 +82,14 @@ $ ninja -C debug
 
 ### Windows Subsystem for Linux (WSL)
 
-WSL works only in a rather limited fashion, as ASAN will only be reasonably supported as of Windows 10 build 17093. You want ASAN.
+Please remember that WSL is still very much experimental.
+WSL works only in a rather limited fashion, as ASAN will only be reasonably supported as of Windows 10 build 17093. Microsoft has announced that the release of the feature upgrade that would have been based on this build is delayed due to a bug.
+You want ASAN.
 
 ```
 $ # Setup WSL and install the Debian Linux "App" from the Microsoft Store
 $ sudo vi /etc/apt/sources.list # replace every occurence of "stretch" with the word "testing"
-$ sudo apt update && sudo apt full-upgrade
+$ sudo apt update && sudo apt dist-upgrade && sudo apt autoremove
 $ sudo apt install build-essential git ccache meson pkg-config libunwind-dev
 ```
 
@@ -102,7 +104,7 @@ $ ninja
 
 With ASAN:
 ```
-$ sudo bash -c 'echo 1 > /proc/sys/vm/overcommit_memory'
+$ sudo bash -c 'echo 1 > /proc/sys/vm/overcommit_memory' # setting t
 $ cd ${PROJECT}
 $ meson --buildtype=debug debug
 $ ninja -C debug
