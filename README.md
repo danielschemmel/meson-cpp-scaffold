@@ -65,6 +65,8 @@ $ meson --buildtype=debug debug
 $ ninja -C debug
 ```
 
+If you feel especially adventurous, you may install gcc version 8 with `sudo apt install g++-8` and instead configure with `env CXX=g++-8 meson --buildtype=debug debug`.
+
 ### MacOS
 
 The XCode CLI utils provide a rather old version of `clang++` and alias it with the `c++` and `g++` commands. Homebrew provides an up-to-date version of `g++` and many libraries that are easily accessible on Linux.
@@ -107,6 +109,8 @@ $ cd ${PROJECT}
 $ meson --buildtype=debug debug
 $ ninja -C debug
 ```
+
+If you feel especially adventurous, you may install gcc version 8 with `sudo apt install g++-8` and instead configure with `env CXX=g++-8 meson --buildtype=debug debug`.
 
 ### Cygwin
 
