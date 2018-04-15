@@ -39,6 +39,24 @@ Unit tests are implemented as small programs, which indicate success by their re
 * A return code of 77 indicates that the test was skipped.
 * Any other return code can be used to indicate failure.
 
+## Debugging
+
+```
+HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+```
+
+To debug your programs with `lldb`, `gdb`, `valgrind` and friends, you may need to disable sanitizers.
+
+```
+$ cd "${PROJECT}"
+$ meson --buildtype=debug debug
+$ cd debug
+$ meson configure -Db_sanitize=none
+$ ninja
+$ lldb "${PROGRAM}"
+(lldb) r
+```
+
 ## Building On '${OS}'
 
 While compilation may succeed on older compilers, it is strongly suggested to use either gcc in version 7 or newer or clang in version 6 or newer. Especially for debugging, support for ASAN and UBSAN is extremely useful.
@@ -47,7 +65,7 @@ While compilation may succeed on older compilers, it is strongly suggested to us
 
 ```
 $ sudo pacman -S base-devel ccache meson libunwind
-$ cd ${PROJECT}
+$ cd "${PROJECT}"
 $ meson --buildtype=debug debug
 $ ninja -C debug
 ```
@@ -60,7 +78,7 @@ Debian stretch (the "newest" stable branch at the time of writing) defaults to o
 $ sudo vi /etc/apt/sources.list # replace every occurence of "stretch" with the word "testing"
 $ sudo apt update && sudo apt dist-upgrade && sudo apt autoremove
 $ sudo apt install build-essential git ccache meson pkg-config libunwind-dev
-$ cd ${PROJECT}
+$ cd "${PROJECT}"
 $ meson --buildtype=debug debug
 $ ninja -C debug
 ```
@@ -74,8 +92,8 @@ The XCode CLI utils provide a rather old version of `clang++` and alias it with 
 ```
 $ # Install the XCode command line tools and Homebrew
 $ brew install gcc ccache meson
-$ cd ${PROJECT}
-$ export CXX=${GPLUSPLUS_PATH} # typically /usr/local/bin/g++-7
+$ cd "${PROJECT}"
+$ export CXX="${GPLUSPLUS_PATH}" # typically /usr/local/bin/g++-7
 $ meson --buildtype=debug debug
 $ ninja -C debug
 ```
@@ -95,7 +113,7 @@ $ sudo apt install build-essential git ccache meson pkg-config libunwind-dev
 
 Without ASAN:
 ```
-$ cd ${PROJECT}
+$ cd "${PROJECT}"
 $ meson --buildtype=debug debug
 $ cd debug
 $ meson configure -Db_sanitize=none
@@ -105,7 +123,7 @@ $ ninja
 With ASAN:
 ```
 $ sudo bash -c 'echo 1 > /proc/sys/vm/overcommit_memory' # setting t
-$ cd ${PROJECT}
+$ cd "${PROJECT}"
 $ meson --buildtype=debug debug
 $ ninja -C debug
 ```
