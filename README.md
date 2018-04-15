@@ -41,10 +41,6 @@ Unit tests are implemented as small programs, which indicate success by their re
 
 ## Debugging
 
-```
-HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
-```
-
 To debug your programs with `lldb`, `gdb`, `valgrind` and friends, you may need to disable sanitizers.
 
 ```
