@@ -41,11 +41,9 @@ Unit tests are implemented as small programs, which indicate success by their re
 
 ## Building On '${OS}'
 
-As your code will be tested on machines with a similar OS setup as the provided Docker container, ***use anything else at your own peril***.
+While compilation may succeed on older compilers, it is strongly suggested to use either gcc in version 7 or newer or clang in version 6 or newer. Especially for debugging, support for ASAN and UBSAN is extremely useful.
 
 ### Arch Linux
-
-The same OS as the Docker image. Please report any issues.
 
 ```
 $ sudo pacman -S base-devel ccache meson libunwind
@@ -56,7 +54,7 @@ $ ninja -C debug
 
 ### Debian
 
-Debian stretch (the "newest" stable branch at the time of writing) only provides old software. Modern software is available on the testing branch.
+Debian stretch (the "newest" stable branch at the time of writing) defaults to old software. Modern software is available on the testing branch.
 
 ```
 $ sudo vi /etc/apt/sources.list # replace every occurence of "stretch" with the word "testing"
@@ -116,4 +114,4 @@ While compilation can succeed, the Cygwin compiler is fairly old (g++ 6.4 at the
 
 ### MinGW
 
-Configuration is not currently successful on MinGW. MinGW would support a modern `g++` without ASAN or UBSAN.
+Configuration is not currently successful on MinGW. While MinGW would support a modern `g++`, neither ASAN or UBSAN are supported.
