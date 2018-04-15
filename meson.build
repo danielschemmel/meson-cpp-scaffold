@@ -17,7 +17,7 @@ if compiler.get_id() == 'gcc'
 		add_global_arguments('-maes', language: 'cpp')
 	endif
 
-	add_global_arguments([
+	foreach arg : [
 		'-Wall',
 		'-Wextra',
 		'-pedantic',
@@ -29,45 +29,43 @@ if compiler.get_id() == 'gcc'
 		'-Wformat-signedness',
 		'-Wmaybe-uninitialized',
 		'-Wmissing-declarations',
+		'-Wmultistatement-macros',
 		'-Wnull-dereference',
 		'-Wold-style-cast',
 		'-Wsign-conversion',
 		'-Wundef',
 		'-Wuninitialized',
-	], language: 'cpp')
+	]
+		if compiler.has_argument(arg)
+			add_global_arguments([arg], language: 'cpp')
+		else
+			warning('Your compiler does not support \'' + arg + '\'')
+		endif
+	endforeach
 	if warning_level > 1
-		if compiler.has_argument('-Wduplicated-branches')
-			add_global_arguments(['-Wduplicated-branches'], language: 'cpp')
-		else
-			warning('Your compiler does not support \'-Wduplicated-branches\'')
-		endif
-		if compiler.has_argument('-Wimplicit-fallthrough=5')
-			add_global_arguments(['-Wimplicit-fallthrough=5'], language: 'cpp')
-		else
-			warning('Your compiler does not support \'-Wimplicit-fallthrough=5\'')
-		endif
-		add_global_arguments([
+		foreach arg : [
 			'-Wdouble-promotion',
+			'-Wduplicated-branches',
+			'-Wimplicit-fallthrough=5',
 			'-Wmissing-include-dirs',
 			'-Wstrict-overflow=5',
 			'-Wsuggest-attribute=noreturn',
 			'-Wswitch-bool',
 			'-Wswitch-enum',
 			'-Wzero-as-null-pointer-constant',
-		], language: 'cpp')
+		]
+			if compiler.has_argument(arg)
+				add_global_arguments([arg], language: 'cpp')
+			else
+				warning('Your compiler does not support \'' + arg + '\'')
+			endif
+		endforeach
 	endif
 	if warning_level > 2
-		if compiler.has_argument('-Walloc-zero')
-			add_global_arguments(['-Walloc-zero'], language: 'cpp')
-		else
-			warning('Your compiler does not support \'-Walloc-zero\'')
-		endif
-		if compiler.has_argument('-Walloca')
-			add_global_arguments(['-Walloca'], language: 'cpp')
-		else
-			warning('Your compiler does not support \'-Walloca\'')
-		endif
-		add_global_arguments([
+		foreach arg : [
+			'-Walloc-zero',
+			'-Walloca',
+			'-Wcast-align=strict',
 			'-Wnormalized=nfc',
 			'-Wplacement-new=2',
 			'-Wredundant-decls',
@@ -77,7 +75,13 @@ if compiler.get_id() == 'gcc'
 			'-Wsuggest-override',
 			'-Wtrampolines',
 			'-Wuseless-cast',
-		], language: 'cpp')
+		]
+			if compiler.has_argument(arg)
+				add_global_arguments([arg], language: 'cpp')
+			else
+				warning('Your compiler does not support \'' + arg + '\'')
+			endif
+		endforeach
 	endif
 elif compiler.get_id() == 'clang'
 	if get_option('buildtype') == 'debug'
@@ -85,7 +89,7 @@ elif compiler.get_id() == 'clang'
 	endif
 
 	if warning_level < 2
-		add_global_arguments([
+		foreach arg : [
 			'-Wall',
 			'-Wextra',
 			'-pedantic',
@@ -99,10 +103,16 @@ elif compiler.get_id() == 'clang'
 			'-Wsign-conversion',
 			'-Wundef',
 			'-Wuninitialized',
-		], language: 'cpp')
+		]
+			if compiler.has_argument(arg)
+				add_global_arguments([arg], language: 'cpp')
+			else
+				warning('Your compiler does not support \'' + arg + '\'')
+			endif
+		endforeach
 	endif
 	if warning_level > 1 and warning_level < 2
-		add_global_arguments([
+		foreach arg : [
 			'-Wdouble-promotion',
 			'-Wimplicit-fallthrough',
 			'-Wmissing-include-dirs',
@@ -110,16 +120,32 @@ elif compiler.get_id() == 'clang'
 			'-Wswitch-bool',
 			'-Wswitch-enum',
 			'-Wzero-as-null-pointer-constant',
-		], language: 'cpp')
+		]
+			if compiler.has_argument(arg)
+				add_global_arguments([arg], language: 'cpp')
+			else
+				warning('Your compiler does not support \'' + arg + '\'')
+			endif
+		endforeach
 	endif
 	if warning_level > 2
-		add_global_arguments([
-			'-Weverything',
+		if compiler.has_argument('-Weverything')
+			add_global_arguments(['-Weverything'], language: 'cpp')
+		else
+			error('Your compiler does not support \'-Weverything\' - warning level of 2 is not supported for your version of clang')
+		endif
+		foreach arg : [
 			'-Wno-c++98-compat',
 			'-Wno-c++98-compat-pedantic',
 			'-Wno-padded',
 			'-Wno-shadow-field-in-constructor',
-		], language: 'cpp')
+		]
+			if compiler.has_argument(arg)
+				add_global_arguments([arg], language: 'cpp')
+			else
+				warning('Your compiler does not support \'' + arg + '\'')
+			endif
+		endforeach
 	endif
 else
 	error('unsupported compiler')
