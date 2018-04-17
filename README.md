@@ -57,6 +57,18 @@ $ lldb "${PROGRAM}"
 
 While compilation may succeed on older compilers, it is strongly suggested to use either gcc in version 7 or newer or clang in version 6 or newer. Especially for debugging, support for ASAN and UBSAN is extremely useful.
 
+### Using the Debian Dockerfile
+
+The Debian Dockerfile provides an up-to-date Debian Testing based system.
+
+```
+$ cd "${PROJECT}/docker/debian"
+$ docker build -t meson-scaffold . # build image
+$ docker run -it --rm -v (realpath ${PROJECT}):/project/ -u (id -u) meson meson --buildtype=debug debug # oneshot command
+$ docker run -it -v (realpath ${PROJECT}):/project/ -u (id -u) meson # persistent container w/ default g++
+$ docker run -it -e CXX=g++-8 -v (realpath ../../):/project/ -u (id -u) meson # persistent container w/ g++-8
+```
+
 ### Arch Linux
 
 ```
