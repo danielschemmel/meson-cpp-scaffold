@@ -66,7 +66,7 @@ $ cd "${PROJECT}/docker/debian"
 $ docker build -t meson-scaffold . # build image
 $ docker run -it --rm -v (realpath ${PROJECT}):/project/ -u (id -u) meson meson --buildtype=debug debug # oneshot command
 $ docker run -it -v (realpath ${PROJECT}):/project/ -u (id -u) meson # persistent container w/ default g++
-$ docker run -it -e CXX=g++-8 -v (realpath ../../):/project/ -u (id -u) meson # persistent container w/ g++-8
+$ docker run -it -e CXX=g++-8 -v (realpath ${PROJECT}):/project/ -u (id -u) meson # persistent container w/ g++-8
 ```
 
 ### Arch Linux
