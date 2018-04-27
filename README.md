@@ -32,7 +32,7 @@ By default, debug builds will use both the Address Sanitizer and the Undefined B
 
 ## Unit Tests
 
-Meson supports unit tests, which can be run with, e.g., `meson -C debug test`.
+Meson supports unit tests, which can be run with, e.g., `meson test -C debug` or `ninja -C debug test`.
 
 Unit tests are implemented as small programs, which indicate success by their return code:
 * A return code of 0 implies success.
