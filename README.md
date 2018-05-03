@@ -64,9 +64,11 @@ The Debian Dockerfile provides an up-to-date Debian Testing based system.
 ```
 $ cd "${PROJECT}/docker/debian"
 $ docker build -t meson-scaffold . # build image
+$ # the following examples might be useful:
 $ docker run -it --privileged -v $(realpath ${PROJECT}):/project/ -u $(id -u) --rm meson-scaffold meson --buildtype=debug debug # oneshot command
 $ docker run -it --privileged -v $(realpath ${PROJECT}):/project/ -u $(id -u) meson-scaffold # persistent container w/ default g++
 $ docker run -it --privileged -v $(realpath ${PROJECT}):/project/ -u $(id -u) -e CXX=g++-8 meson-scaffold # persistent container w/ g++-8
+$ docker exec -it -u 0 meson /bin/bash # create a root shell in a persistent meson container, e.g., to install additional software
 ```
 
 ### Arch Linux
