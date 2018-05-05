@@ -64,9 +64,8 @@ The Debian Dockerfile provides an up-to-date Debian Testing based system.
 ```
 $ cd "${PROJECT}/docker/debian"
 $ docker build -t meson-scaffold . # build image
-$ # the following examples might be useful:
-$ docker run -itd --privileged -v $(realpath ${PROJECT}):/project/ -u $(id -u) -e CXX=g++-8 meson-scaffold # start a container
-$ docker exec -it -u 0 meson /bin/bash # spawn a root shell in a persistent meson container, e.g., to install additional software
+$ docker run -itd --privileged -v $(realpath ${PROJECT}):/project/ -u $(id -u) -e CXX=g++-8 --name meson meson-scaffold # start a container
+$ docker exec -u 0 meson /bin/bash -c "useradd -m -G sudo -u $(id -u) user && sed -i -e 's/^%sudo/# %sudo/' /etc/sudoers && echo '%sudo ALL=(ALL:ALL) NOPASSWD:ALL' >> /etc/sudoers" # setup the user
 ```
 
 ### Arch Linux
