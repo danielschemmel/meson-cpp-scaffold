@@ -1,10 +1,7 @@
 libversion_version_tag = custom_target('libversion_version_tag',
 	build_always: true,
 	command: ['bash', '-c', '''set -e; set -o pipefail;
-		version=$(cd "$0" && git describe --always --dirty=.dirty --long 2>&1)
-		if [[ $? -ne 0 ]] ; then
-			version=INDETERMINATE
-		fi
+		version=$(cd "$0" && git describe --always --dirty=.dirty --long 2>/dev/null || echo INDETERMINATE)
 		if sed -e "s/$3/${version}/g" "$1" | cmp -s "$2" - ; then
 			echo "already up to date"
 		else
