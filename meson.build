@@ -200,7 +200,6 @@ else
 endif
 
 include = include_directories('include')
-# cxxopts = include_directories('external/cxxopts/include')
 
 subdir('lib')
 subdir('tool')
