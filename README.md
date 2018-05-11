@@ -22,6 +22,8 @@ Meson uses `meson.build` files to describe the compilation process. For example,
 
 ## Warnings
 
+Be aware that this build system builds incrementally and that warnings are only displayed when the translation unit that causes them is rebuilt. To ensure that you are aware of all warnings, either do a clean rebuild, e.g., with `ninja -C debug clean ; ninja -C debug` or disallow compilation to finish in the presence of warnings by doing a `meson configure --werror` or by configuring the build folder as `meson --werror --buildtype=debug debug` in the first place.
+
 The default warning level is intentionally chosen to be rather high. You may add additional warnings, but do not remove any warnings from the build configuration.
 
 We will compile with the default warning level, 3, and expect your code to compile in the provided docker container without any warnings.
